@@ -14,7 +14,7 @@ from metadrive.component.pgblock.tollgate import TollGate
 
 class DatasetPGBlockConfig(PGBlockDistConfig):
     MAX_LANE_NUM = 4
-    MIN_LANE_NUM = 2
+    MIN_LANE_NUM = 1
 
     BLOCK_TYPE_DISTRIBUTION_V1 = None  # set to null
     BLOCK_TYPE_DISTRIBUTION_V2 = None  # set to null

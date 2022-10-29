@@ -26,3 +26,4 @@
 /metadrive/assets/waymo/raw/
 /metadrive/assets/waymo/processed/
 **/demo.gif
+/metadrive_scenario/dataset/

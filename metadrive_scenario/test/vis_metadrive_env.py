@@ -1,7 +1,7 @@
 from metadrive.envs.metadrive_env import MetaDriveEnv
 from metadrive.policy.idm_policy import IDMPolicy
 from metadrive.utils import setup_logger
-from metadrive_scenario.data_generation.pg_block_dist import DatasetPGBlockConfig
+from metadrive_scenario.utils.pg_block_dist import DatasetPGBlockConfig
 
 if __name__ == "__main__":
     setup_logger(True)
@@ -16,6 +16,7 @@ if __name__ == "__main__":
             "global_light": True,
             # "debug_static_world":True,
             "cull_scene": False,
+            "map":"yyYy",
             # "offscreen_render": True,
             # "controller": "joystick",
             "manual_control": True,
