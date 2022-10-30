@@ -17,7 +17,7 @@ def generate_synthetic_data(env_num, start_seed):
     env.reset()
     data = env.engine.map_manager.dump_all_maps(
         file_name=os.path.join(METADRIVE_SCENARIO_DATASET_DIR,
-                               "{}_env_num_{}_start_seed_{}.pickle".format(DataType.SYNTHETIC, env_num, start_seed)))
+                               "{}_env_num_{}_start_seed_{}.pkl".format(DataType.SYNTHETIC, env_num, start_seed)))
 
     stat = {}
     total_block_num = 0

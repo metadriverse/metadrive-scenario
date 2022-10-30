@@ -6,6 +6,8 @@ from metadrive.envs.metadrive_env import MetaDriveEnv
 
 
 def parse_dataset_name(dataset_name):
+    if dataset_name.rfind(".pkl") == -1:
+        dataset_name += ".pkl"
     data_path = osp.join(METADRIVE_SCENARIO_DATASET_DIR, dataset_name)
     assert osp.exists(data_path), "Can not find dataset: {}".format(
         dataset_name)
@@ -32,3 +34,8 @@ def create_env(dataset_name):
     env.engine.map_manager.load_all_maps(full_data_path)
     env.reset()
     return env
+
+
+if __name__ == "__main__":
+    env = create_env("synthetic_env_num_20_start_seed_0")
+    env.reset()
