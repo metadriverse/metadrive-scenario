@@ -13,6 +13,7 @@ def parse_dataset_name(dataset_name):
         dataset_name)
     if DataType.SYNTHETIC in dataset_name:
         env_cls = MetaDriveEnv
+        dataset_name = dataset_name[:-4]
         env_num_str = "_env_num_"
         start_seed_str = "_start_seed_"
         idx_env_num = dataset_name.find(env_num_str)
