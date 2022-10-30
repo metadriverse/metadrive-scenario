@@ -27,3 +27,4 @@
 /metadrive/assets/waymo/processed/
 **/demo.gif
 /metadrive_scenario/dataset/
+*.pkl

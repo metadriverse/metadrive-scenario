@@ -1,10 +1,7 @@
-from metadrive_scenario.utils.pg_block_dist import DatasetPGBlockConfig
+from metadrive_scenario.data_generation import SYNTHETIC_DATA_CONFIG
 from metadrive.envs.metadrive_env import MetaDriveEnv
 import os
 from metadrive_scenario import METADRIVE_SCENARIO_DATASET_DIR, DataType
-
-SYNTHETIC_DATA_CONFIG = {"block_dist_config": DatasetPGBlockConfig,
-                         "traffic_density": 0.1}
 
 
 def generate_synthetic_data(env_num, start_seed):
