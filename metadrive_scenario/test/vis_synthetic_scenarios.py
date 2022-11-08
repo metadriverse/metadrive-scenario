@@ -1,11 +1,15 @@
 from metadrive_scenario.utils.env_create_utils import create_env
+from metadrive.policy.idm_policy import IDMPolicy
 
 if __name__ == "__main__":
-    config = {"use_render": True,
-              "traffic_density": 0.2,
-              "manual_control": True}
-    env = create_env("synthetic_env_num_3000_start_seed_0", config=config)
-    env.reset()
-    while True:
-        env.step(env.action_space.sample())
-        env.render(text={"seed": env.current_seed})
+    env = create_env("test_env_num_20_start_seed_0_synthetic",
+                     extra_env_config={"use_render": True, "manual_control": False, "agent_policy":IDMPolicy})
+    # env.reset()
+    for i in range(9,20):
+        env.reset(seed=i)
+        for t in range(1000):
+            o, r, d, i = env.step([0, 1])
+            env.render(text={"seed":env.current_seed})
+            # print(env.vehicle.position)
+            if d:
+                break
