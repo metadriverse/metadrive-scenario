@@ -5,6 +5,7 @@ from metadrive.component.pgblock.first_block import FirstPGBlock
 
 
 def check_load_synthetic_data(dataset=None):
+    raise DeprecationWarning
     assert dataset, "Please assign dataset name"
     env = create_env(dataset)
     error_seed = []
@@ -49,5 +50,6 @@ def check_load_synthetic_data(dataset=None):
 
 
 if __name__ == "__main__":
+    raise DeprecationWarning
     dataset = "synthetic_env_num_3000_start_seed_0"
     check_load_synthetic_data(dataset)
