@@ -13,11 +13,11 @@ print("We will install the following packages: ", packages)
 version = "0.0.0.1"
 
 install_requires = [
-    "metadrive-simulator"
+    "metadrive-scenario"
 ]
 
 setup(
-    name="metadrive-simulator",
+    name="metadrive-scenario",
     version=version,
     description="Scenarios",
     url="https://github.com/metadriverse/metadrive",
