@@ -55,5 +55,4 @@ def generate_synthetic_data(env_num, start_seed, dataset_name=None):
 
 
 if __name__ == "__main__":
-    # generate_synthetic_data(env_num=20, start_seed=0,dataset_name="test.pkl")
     generate_synthetic_data(env_num=3000, start_seed=0)
