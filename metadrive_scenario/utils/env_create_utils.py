@@ -1,4 +1,5 @@
 import logging
+import copy
 import os.path as osp
 import pickle
 import numpy as np
@@ -21,6 +22,8 @@ class MetaDriveScenario:
         assert self.scenario_start >= min(list(scenarios.keys())), "Scenario range error!"
         self.scenario_end = scenario_end or max(list(scenarios.keys()))
         assert self.scenario_end < max(list(scenarios.keys())) + 1, "Scenario range error!"
+        self.reset()
+        self._env.engine.accept("r", self.reset)
 
     def __getattr__(self, item):
         if item != "reset":
@@ -28,15 +31,15 @@ class MetaDriveScenario:
 
     def reset(self, seed=None):
         if seed is None:
-            scenario = self._scenarios[
-                np.random.RandomState(self._random_seed_for_wrapper).randint(self.scenario_start, self.scenario_end)]
+            seed = np.random.RandomState(self._random_seed_for_wrapper).randint(self.scenario_start, self.scenario_end)
+            scenario = copy.deepcopy(self._scenarios[seed])
         else:
             assert isinstance(seed, int) and self.scenario_start <= seed and self.scenario_end, "seed error!"
-            scenario = self._scenarios[seed]
+            scenario = copy.deepcopy(self._scenarios[seed])
         self._env.config["replay_episode"] = scenario
         self._env.config["record_scenario"] = False
         self._env.config["only_reset_when_replay"] = True
-        return self._env.reset()
+        return self._env.reset(force_seed=seed)
 
 
 def key_check(data_1, data_2):
