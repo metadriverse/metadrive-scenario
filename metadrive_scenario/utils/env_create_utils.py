@@ -22,6 +22,7 @@ class MetaDriveScenario:
         assert self.scenario_start >= min(list(scenarios.keys())), "Scenario range error!"
         self.scenario_end = scenario_end or max(list(scenarios.keys()))
         assert self.scenario_end < max(list(scenarios.keys())) + 1, "Scenario range error!"
+        self._np_random = np.random.RandomState(self._random_seed_for_wrapper)
         self.reset()
         self._env.engine.accept("r", self.reset)
 
@@ -31,7 +32,7 @@ class MetaDriveScenario:
 
     def reset(self, seed=None):
         if seed is None:
-            seed = np.random.RandomState(self._random_seed_for_wrapper).randint(self.scenario_start, self.scenario_end)
+            seed = self._np_random.randint(self.scenario_start, self.scenario_end)
             scenario = copy.deepcopy(self._scenarios[seed])
         else:
             assert isinstance(seed, int) and self.scenario_start <= seed and self.scenario_end, "seed error!"
@@ -55,7 +56,7 @@ def create_env(dataset_name, scenario_start=None, scenario_end=None, extra_env_c
     if dataset_name.rfind(".pkl") == -1:
         dataset_name += ".pkl"
     data_path = osp.join(METADRIVE_SCENARIO_DATASET_DIR, dataset_name)
-    assert osp.exists(data_path), "Can not find dataset: {}".format(dataset_name)
+    assert osp.exists(data_path), "Can not find dataset: {}".format(data_path)
     with open(data_path, "rb+") as file:
         dataset = pickle.load(file)
     env_class = dataset["env_class"]
@@ -64,6 +65,7 @@ def create_env(dataset_name, scenario_start=None, scenario_end=None, extra_env_c
     config["replay_episode"] = None
     config["only_reset_when_replay"] = True
     config.update(extra_env_config)
+    config["target_vehicle_configs"] = {}  # this will be filled automatically
     env = MetaDriveScenario(env_class(config),
                             scenarios=dataset["scenarios"],
                             scenario_start=scenario_start,
@@ -76,7 +78,7 @@ def create_env(dataset_name, scenario_start=None, scenario_end=None, extra_env_c
 
 
 if __name__ == "__main__":
-    env = create_env("test_env_num_20_start_seed_0_synthetic",
+    env = create_env("env_num_20_start_seed_0_synthetic",
                      extra_env_config={"use_render": True, "manual_control": True})
     env.reset()
     for i in range(20):
