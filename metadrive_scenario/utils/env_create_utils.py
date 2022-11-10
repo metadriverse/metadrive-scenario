@@ -49,6 +49,7 @@ class MetaDriveScenario(gym.Env):
         assert self.scenario_end <= max(list(scenarios.keys())) + 1, \
             "Scenario range error! end: {}".format(self.scenario_end)
         self._np_random = np.random.RandomState(self._random_seed_for_wrapper)
+        self._env_seed = self.scenario_start
         self.log_info(copy.deepcopy(env_config))
 
     def __getattr__(self, item):
@@ -82,8 +83,12 @@ class MetaDriveScenario(gym.Env):
     def reset(self, seed=None):
         intialize_before_reset = engine_initialized()
         if seed is None:
-            seed = self._np_random.randint(self.scenario_start, self.scenario_end)
-            scenario = copy.deepcopy(self._scenarios[seed])
+            scenario = copy.deepcopy(self._scenarios[self._env_seed])
+            seed = self._env_seed
+            self._env_seed += 1
+            if self._env_seed >= self.scenario_end:
+                self._env_seed = self.scenario_start
+
         else:
             assert isinstance(seed, int) and self.scenario_start <= seed and self.scenario_end, "seed error!"
             scenario = copy.deepcopy(self._scenarios[seed])
@@ -133,14 +138,16 @@ def create_env_and_config(dataset_name, scenario_start=None, scenario_end=None, 
 
 if __name__ == "__main__":
     env_class, config = create_env_and_config("env_num_20_start_seed_0_synthetic",
-                                              extra_env_config={"use_render": True, "manual_control": True})
+                                              extra_env_config={"use_render": True, "manual_control": True},
+                                              scenario_start=10,
+                                              scenario_end=15)
     env = env_class(config)
     print(env.observation_space)
     print(env.action_space)
     env.reset()
     for i in range(20):
-        env.reset(seed=i)
-        for t in range(100):
+        env.reset()
+        for t in range(10000):
             o, r, d, i = env.step([0, 1])
             env.render(text={"seed": env.current_seed})
             # print(env.vehicle.position)
