@@ -12,7 +12,8 @@ import gym
 SCENARIO_CONFIG = {"dataset_path": None,
                    "scenario_start": None,
                    "scenario_end": None,
-                   "seed": None}
+                   "seed": None,
+                   "random_set_seed": True}
 
 
 class MetaDriveScenario(gym.Env):
@@ -24,8 +25,9 @@ class MetaDriveScenario(gym.Env):
         :param scenario_end: scenario end index (exclusive)
         :param seed: random seed for determing random choosing scenario
         """
-
-        self.wrapper_config = config or SCENARIO_CONFIG
+        if config is not None:
+            self.wrapper_config = SCENARIO_CONFIG
+            self.wrapper_config.update(config)
         data_path = config["dataset_path"]
         assert osp.exists(data_path), "Can not find dataset: {}".format(data_path)
         with open(data_path, "rb+") as file:
@@ -36,16 +38,17 @@ class MetaDriveScenario(gym.Env):
         env_config["record_episode"] = False
         env_config["replay_episode"] = None
         env_config["only_reset_when_replay"] = True
-        env_config.update(config["extra_env_config"])
+        env_config.update(self.wrapper_config["extra_env_config"])
         env_config["target_vehicle_configs"] = {}  # this will be filled automatically
 
+        self._random_set_seed = self.wrapper_config["random_set_seed"]
         self._env = env_class(copy.deepcopy(env_config))
         self._scenarios = scenarios = self.dataset["scenarios"]
-        self._random_seed_for_wrapper = config["seed"]
-        self.scenario_start = config["scenario_start"] or min(list(scenarios.keys()))
+        self._random_seed_for_wrapper = self.wrapper_config["seed"]
+        self.scenario_start = self.wrapper_config["scenario_start"] or min(list(scenarios.keys()))
         assert self.scenario_start >= min(list(scenarios.keys())), \
             "Scenario range error! start; {}".format(self.scenario_start)
-        self.scenario_end = config["scenario_end"] or max(list(scenarios.keys())) + 1
+        self.scenario_end = self.wrapper_config["scenario_end"] or max(list(scenarios.keys())) + 1
         assert self.scenario_end <= max(list(scenarios.keys())) + 1, \
             "Scenario range error! end: {}".format(self.scenario_end)
         self._np_random = np.random.RandomState(self._random_seed_for_wrapper)
@@ -85,9 +88,12 @@ class MetaDriveScenario(gym.Env):
         if seed is None:
             scenario = copy.deepcopy(self._scenarios[self._env_seed])
             seed = self._env_seed
-            self._env_seed += 1
-            if self._env_seed >= self.scenario_end:
-                self._env_seed = self.scenario_start
+            if self._random_set_seed:
+                self._env_seed = self._np_random.randint(self.scenario_start, self.scenario_end)
+            else:
+                self._env_seed += 1
+                if self._env_seed >= self.scenario_end:
+                    self._env_seed = self.scenario_start
 
         else:
             assert isinstance(seed, int) and self.scenario_start <= seed and self.scenario_end, "seed error!"
@@ -123,7 +129,8 @@ def key_check(data_1, data_2):
                                                                            [(i, data_2[i]) for i in intersect]))
 
 
-def create_env_and_config(dataset_name, scenario_start=None, scenario_end=None, extra_env_config=None, seed=0):
+def create_env_and_config(dataset_name, scenario_start=None, scenario_end=None, extra_env_config=None, seed=0,
+                          random_set_seed_when_reset=False):
     extra_env_config = extra_env_config or {}
     if dataset_name.rfind(".pkl") == -1:
         dataset_name += ".pkl"
@@ -132,7 +139,8 @@ def create_env_and_config(dataset_name, scenario_start=None, scenario_end=None, 
                   scenario_start=scenario_start,
                   scenario_end=scenario_end,
                   seed=seed,
-                  extra_env_config=extra_env_config)
+                  extra_env_config=extra_env_config,
+                  random_set_seed=random_set_seed_when_reset)
     return MetaDriveScenario, config
 
 
