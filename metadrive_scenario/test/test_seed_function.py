@@ -34,11 +34,12 @@ def test_seed_waymo():
                                                                 "agent_policy": None},
                                               scenario_start=0,
                                               waymo_env=True,
-                                              scenario_end=1000,
+                                              scenario_end=100,
                                               random_set_seed_when_reset=False)
     # env.reset()
     env = env_class(config)
-    for i in range(100, 1100):
+    for i in range(100, 200):
+        print(i)
         try:
             env.reset()
         except Exception as e:
@@ -60,7 +61,7 @@ def test_seed_waymo():
     env = env_class(config)
     for i in range(10, 124):
         env.reset()
-        assert 10 <= env.current_seed < 17
+        assert 10 <= env.current_seed < 123
 
 
 if __name__ == "__main__":
