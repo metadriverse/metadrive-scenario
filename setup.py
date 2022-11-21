@@ -13,7 +13,8 @@ print("We will install the following packages: ", packages)
 version = "0.0.0.1"
 
 install_requires = [
-    "metadrive-scenario"
+    "metadrive-scenario",
+    "metadrive-simulator>=0.2.6",
 ]
 
 setup(
