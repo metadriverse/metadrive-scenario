@@ -58,3 +58,7 @@ class DatasetPGBlockConfig(PGBlockDistConfig):
     @classmethod
     def _get_dist(cls, version: str):
         return cls.BLOCK_TYPE_DISTRIBUTION_DATASET
+
+    @classmethod
+    def get_config(cls):
+        return {k.ID: v for k, v in cls.BLOCK_TYPE_DISTRIBUTION_DATASET.items()}
