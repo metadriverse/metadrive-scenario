@@ -13,14 +13,18 @@ def vis_synthetic_data(env_num, start_seed):
     """
     Generate synthetic data
     """
-    SYNTHETIC_DATA_CONFIG.update({"environment_num": 1,
-                                  "start_seed": 1,
-                                  'traffic_density': 0.,
-                                  "use_render": True,
-                                  "manual_control": True,
-                                  "agent_policy": None,
-                                  "map": "XXXXX",
-                                  "record_episode": False})
+    SYNTHETIC_DATA_CONFIG.update(
+        {
+            "environment_num": 1,
+            "start_seed": 1,
+            'traffic_density': 0.,
+            "use_render": True,
+            "manual_control": True,
+            "agent_policy": None,
+            "map": "XXXXX",
+            "record_episode": False
+        }
+    )
     env = MetaDriveEnv(SYNTHETIC_DATA_CONFIG)
     env.reset()
     scenarios = {}
@@ -30,11 +34,14 @@ def vis_synthetic_data(env_num, start_seed):
         env.reset()
         for i in range(1000):
             o, r, d, i = env.step([0, 1])
-            env.render(text={"seed": env.current_seed,
-                             "dist_left:": env.vehicle.dist_to_left_side,
-                             "dist_right:": env.vehicle.dist_to_right_side,
-                             "ref_lane": env.vehicle.navigation.current_ref_lanes[0],
-                             })
+            env.render(
+                text={
+                    "seed": env.current_seed,
+                    "dist_left:": env.vehicle.dist_to_left_side,
+                    "dist_right:": env.vehicle.dist_to_right_side,
+                    "ref_lane": env.vehicle.navigation.current_ref_lanes[0],
+                }
+            )
             if d:
                 break
     env.close()

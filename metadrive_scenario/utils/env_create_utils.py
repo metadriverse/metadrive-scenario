@@ -11,12 +11,14 @@ from metadrive_scenario import METADRIVE_SCENARIO_DATASET_DIR
 import json
 import gym
 
-SCENARIO_CONFIG = {"dataset_path": None,
-                   "scenario_start": None,
-                   "scenario_end": None,
-                   "seed": None,
-                   "waymo_env": False,
-                   "random_set_seed": True}
+SCENARIO_CONFIG = {
+    "dataset_path": None,
+    "scenario_start": None,
+    "scenario_end": None,
+    "seed": None,
+    "waymo_env": False,
+    "random_set_seed": True
+}
 
 
 class MetaDriveScenario(gym.Env):
@@ -151,37 +153,48 @@ def key_check(data_1, data_2):
     assert isinstance(data_1, dict) and isinstance(data_2, dict), "Only Dict type can be checked"
     intersect = set(data_1.keys()).intersection(set(data_2.keys()))
     if len(intersect) > 0:
-        logging.info("{} in the config will be overwritten with {}".format([(i, data_1[i]) for i in intersect],
-                                                                           [(i, data_2[i]) for i in intersect]))
+        logging.info(
+            "{} in the config will be overwritten with {}".format(
+                [(i, data_1[i]) for i in intersect], [(i, data_2[i]) for i in intersect]
+            )
+        )
 
 
-def create_env_and_config(dataset_path,
-                          scenario_start=None,
-                          scenario_end=None,
-                          extra_env_config=None,
-                          random_set_seed_when_reset=False,
-                          random_seed=0,
-                          waymo_env=False,
-                          ):
+def create_env_and_config(
+    dataset_path,
+    scenario_start=None,
+    scenario_end=None,
+    extra_env_config=None,
+    random_set_seed_when_reset=False,
+    random_seed=0,
+    waymo_env=False,
+):
     extra_env_config = extra_env_config or {}
     if dataset_path.rfind(".pkl") == -1 and not waymo_env:
         dataset_path += ".pkl"
     data_path = osp.join(METADRIVE_SCENARIO_DATASET_DIR, dataset_path)
-    config = dict(dataset_path=data_path,
-                  scenario_start=scenario_start,
-                  scenario_end=scenario_end,
-                  seed=random_seed,
-                  waymo_env=waymo_env,
-                  extra_env_config=extra_env_config,
-                  random_set_seed=random_set_seed_when_reset)
+    config = dict(
+        dataset_path=data_path,
+        scenario_start=scenario_start,
+        scenario_end=scenario_end,
+        seed=random_seed,
+        waymo_env=waymo_env,
+        extra_env_config=extra_env_config,
+        random_set_seed=random_set_seed_when_reset
+    )
     return MetaDriveScenario, config
 
 
 if __name__ == "__main__":
-    env_class, config = create_env_and_config("env_num_20_start_seed_0_synthetic",
-                                              extra_env_config={"use_render": True, "manual_control": True},
-                                              scenario_start=10,
-                                              scenario_end=15)
+    env_class, config = create_env_and_config(
+        "env_num_20_start_seed_0_synthetic",
+        extra_env_config={
+            "use_render": True,
+            "manual_control": True
+        },
+        scenario_start=10,
+        scenario_end=15
+    )
     env = env_class(config)
     print(env.observation_space)
     print(env.action_space)
