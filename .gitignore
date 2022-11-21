@@ -27,3 +27,5 @@
 /metadrive/assets/waymo/processed/
 **/demo.gif
 /metadrive_scenario/dataset/*.pkl
+/metadrive_scenario/dataset/100_training/
+/metadrive_scenario/dataset/1000_waymo_training/

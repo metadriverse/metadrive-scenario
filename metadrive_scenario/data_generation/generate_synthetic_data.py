@@ -16,9 +16,7 @@ def generate_synthetic_data(env_num, start_seed, dataset_name=None):
     if ".pkl" not in dataset_name:
         dataset_name += ".pkl"
     dataset_name = os.path.join(METADRIVE_SCENARIO_DATASET_DIR, dataset_name)
-    SYNTHETIC_DATA_CONFIG.update({"environment_num": env_num,
-                                  "start_seed": start_seed,
-                                  "record_episode": True})
+    SYNTHETIC_DATA_CONFIG.update({"environment_num": env_num, "start_seed": start_seed, "record_episode": True})
     env = MetaDriveEnv(SYNTHETIC_DATA_CONFIG)
     env.reset()
     scenarios = {}
@@ -45,10 +43,12 @@ def generate_synthetic_data(env_num, start_seed, dataset_name=None):
             traffic_num = stat[k].copy()
             stat[k] = {"mean": np.mean(traffic_num), 'std': (np.std(traffic_num))}
     with open(dataset_name, "wb+") as file:
-        dataset = {"scenarios": scenarios,
-                   "stat": stat,
-                   "env_class": MetaDriveEnv,
-                   "config": scenarios[0]["global_config"]}
+        dataset = {
+            "scenarios": scenarios,
+            "stat": stat,
+            "env_class": MetaDriveEnv,
+            "config": scenarios[0]["global_config"]
+        }
         pickle.dump(dataset, file)
     print(stat)
     env.close()

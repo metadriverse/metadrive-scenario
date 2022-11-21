@@ -3,20 +3,22 @@ from metadrive.policy.idm_policy import IDMPolicy
 
 if __name__ == "__main__":
     env_class, config = create_env_and_config(
-        "env_num_20_start_seed_0_synthetic",
+        "1000_waymo_training",
         extra_env_config={
             "use_render": True,
-            "manual_control": False,
-            "agent_policy": None
-        }
+            "manual_control": True,
+            "replay": False
+        },
+        random_set_seed_when_reset=False,
+        scenario_start=2,
+        waymo_env=True,
+        scenario_end=3
     )
-    # env.reset()
     env = env_class(config)
-    for i in range(9, 20):
+    for i in range(10000):
         env.reset()
         for t in range(1000):
             o, r, d, i = env.step([0, 1])
             env.render(text={"seed": env.current_seed})
-            # print(env.vehicle.position)
             if d:
                 break
