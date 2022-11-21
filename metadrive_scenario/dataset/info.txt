@@ -1,1 +1,1 @@
-This directory is for placing data, which can be downloaded from our github
+This directory is for placing data, which can be downloaded from our github: https://github.com/metadriverse/metadrive-scenario
