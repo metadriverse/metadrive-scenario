@@ -24,22 +24,25 @@ if __name__ == "__main__":
     if args.idm_traffic and is_waymo:
         env_config["replay"] = False
 
-    env_class, config = create_env_and_config(args.dataset,
-                                              extra_env_config=env_config,
-                                              scenario_start=args.scenario_start,
-                                              scenario_end=args.scenario_end,
-                                              random_set_seed_when_reset=True,
-                                              waymo_env=True if is_waymo else False)
+    env_class, config = create_env_and_config(
+        args.dataset,
+        extra_env_config=env_config,
+        scenario_start=args.scenario_start,
+        scenario_end=args.scenario_end,
+        random_set_seed_when_reset=True,
+        waymo_env=True if is_waymo else False
+    )
     env = env_class(config)
     while True:
         env.reset()
         for t in range(3000):
-            text_to_render = {"env index": env.current_seed,
-                              "env_step (<3000)": env.engine.episode_step,
-                              "maunual_control (w,a,s,d)": args.manual_control,
-                              "reset": "press R"}
+            text_to_render = {
+                "env index": env.current_seed,
+                "env_step (<3000)": env.engine.episode_step,
+                "maunual_control (w,a,s,d)": args.manual_control,
+                "reset": "press R"
+            }
             o, r, d, i = env.step([0, 1])
-            env.render(text=text_to_render,
-                       **dict(mode="top_down", film_size=(800, 800)) if args.topdown else {})
+            env.render(text=text_to_render, **dict(mode="top_down", film_size=(800, 800)) if args.topdown else {})
             if d:
                 break

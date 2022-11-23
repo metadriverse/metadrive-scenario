@@ -170,13 +170,13 @@ def key_check(data_1, data_2):
 
 
 def create_env_and_config(
-        dataset_path,
-        scenario_start=None,
-        scenario_end=None,
-        extra_env_config=None,
-        random_set_seed_when_reset=False,
-        random_seed=0,
-        waymo_env=False,
+    dataset_path,
+    scenario_start=None,
+    scenario_end=None,
+    extra_env_config=None,
+    random_set_seed_when_reset=False,
+    random_seed=0,
+    waymo_env=False,
 ):
     extra_env_config = extra_env_config or {}
     if dataset_path.rfind(".pkl") == -1 and not waymo_env:
