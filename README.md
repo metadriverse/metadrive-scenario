@@ -33,4 +33,19 @@ pip install -e .
 
 ## 🚕 Examples
 
-LQY(TBD)
+We provide an example:```metadrive_scenario/examples/run_scenarios.py```, where basic usage and APIs are shown.
+For driving in the **synthetic scenarios**, run:
+```bash
+python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_3000_start_seed_0_synthetic --scenario_start=0 --scenario_end=3000 
+```
+
+For driving in the **real Waymo scenarios**, run:
+```bash
+python metadrive_scenario/examples/run_scenarios.py  --dataset 1000_waymo_training --scenario_start=0 --scenario_end=1000 
+```
+The scenarios will be built by replaying collected surrounding vehicles' trajectories, while you can add argument 
+```--idm_traffic``` to turn these vehicles into reactive ones.
+
+For both scenario types, you can add the optional argument ```--manual_control``` to control the vehicle via ```w```, ```a```, ```s```, ```d```.
+Also, you can add another argumane ```--topdown``` to use 2-D birdeye-view renderer, which is built with pygame.
+
