@@ -33,11 +33,13 @@ class MetaDriveScenario(gym.Env):
         if config is not None:
             self.wrapper_config = SCENARIO_CONFIG
             self.wrapper_config.update(config)
-        self._waymo_env = config["waymo_env"]
+        self.is_waymo_env = config["waymo_env"]
         data_path = config["dataset_path"]
-        assert osp.exists(data_path), "Can not find dataset: {}".format(data_path)
+        assert osp.exists(data_path), \
+            "Can not find dataset: {}, Please download it from: " \
+            "https://github.com/metadriverse/metadrive-scenario/releases.".format(data_path)
 
-        if not self._waymo_env:
+        if not self.is_waymo_env:
             with open(data_path, "rb+") as file:
                 self.dataset = dataset = pickle.load(file)
             env_class = dataset["env_class"]
@@ -85,6 +87,10 @@ class MetaDriveScenario(gym.Env):
     #     return ret
 
     @property
+    def engine(self):
+        return self._env.engine
+
+    @property
     def current_seed(self):
         return self._env.current_seed
 
@@ -112,7 +118,7 @@ class MetaDriveScenario(gym.Env):
     def reset(self, seed=None):
         intialize_before_reset = engine_initialized()
         if seed is None:
-            scenario = copy.deepcopy(self._scenarios[self._env_seed]) if not self._waymo_env else None
+            scenario = copy.deepcopy(self._scenarios[self._env_seed]) if not self.is_waymo_env else None
             seed = self._env_seed
             if self._random_set_seed:
                 self._env_seed = self._np_random.randint(self.scenario_start, self.scenario_end)
@@ -123,8 +129,8 @@ class MetaDriveScenario(gym.Env):
 
         else:
             assert isinstance(seed, int) and self.scenario_start <= seed and self.scenario_end, "seed error!"
-            scenario = copy.deepcopy(self._scenarios[seed]) if not self._waymo_env else None
-        if not self._waymo_env:
+            scenario = copy.deepcopy(self._scenarios[seed]) if not self.is_waymo_env else None
+        if not self.is_waymo_env:
             self._env.config["replay_episode"] = scenario
             self._env.config["record_scenario"] = False
             self._env.config["only_reset_when_replay"] = True
@@ -140,12 +146,12 @@ class MetaDriveScenario(gym.Env):
     def log_data_info(self, env_config):
         if isinstance(env_config, Config):
             env_config = env_config.get_dict()
-        if "block_dist_config" in env_config and not self._waymo_env:
+        if "block_dist_config" in env_config and not self.is_waymo_env:
             env_config["block_dist_config"] = env_config["block_dist_config"].get_config()
         print("Load Dataset: {}".format(self.wrapper_config["dataset_path"]))
         print("Index Range: {}-{}".format(self.scenario_start, self.scenario_end))
         # print("Environment Config: \n {}".format(pickle.dumps(env_config)))
-        if not self._waymo_env:
+        if not self.is_waymo_env:
             print("Dataset Features: {}".format(json.dumps(self.dataset["stat"], indent=4)))
 
 
@@ -161,13 +167,13 @@ def key_check(data_1, data_2):
 
 
 def create_env_and_config(
-    dataset_path,
-    scenario_start=None,
-    scenario_end=None,
-    extra_env_config=None,
-    random_set_seed_when_reset=False,
-    random_seed=0,
-    waymo_env=False,
+        dataset_path,
+        scenario_start=None,
+        scenario_end=None,
+        extra_env_config=None,
+        random_set_seed_when_reset=False,
+        random_seed=0,
+        waymo_env=False,
 ):
     extra_env_config = extra_env_config or {}
     if dataset_path.rfind(".pkl") == -1 and not waymo_env:
