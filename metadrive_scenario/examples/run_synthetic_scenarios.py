@@ -33,7 +33,7 @@ if __name__ == "__main__":
                                   "reset": "press R"}
                 o, r, d, i = env.step([0, 1])
                 env.render(text=text_to_render,
-                           **dict(mode="top_down", film_size=(800, 800)) if args.topdown else {})
+                           **dict(mode="top_down", film_size=(800, 800)))
                 if d:
                     break
     finally:
