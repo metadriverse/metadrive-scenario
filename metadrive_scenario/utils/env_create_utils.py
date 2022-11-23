@@ -98,7 +98,10 @@ class MetaDriveScenario(gym.Env):
         return self._env.step(*args, **kwargs)
 
     def render(self, *args, **kwargs):
-        return self._env.render(*args, **kwargs)
+        ret = self._env.render(*args, **kwargs)
+        if self._env._top_down_renderer is not None and self._env._top_down_renderer.need_reset:
+            self.reset()
+        return ret
 
     def close(self):
         self._env.close()
