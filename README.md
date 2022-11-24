@@ -4,6 +4,7 @@ This repo contains scenarios from different sources for training and testing aut
 All scenarios can be runned in [MetaDrive Simulator](https://github.com/metadriverse/metadrive), where various sensor
 inpurt can be retrieved for making driving decisions. Until now, we provide three types of driving scenarios:
 
+![teaser](./docs/teaser.gif)
 - **Synthetic Scenarios**: Maps are generated via Procedural Generation (PG). Traffic vehicles are generated and 
 controlled according to manually desigened rules
 - **Real Scenarios**: These scenarios are built on [Waymo motion dataset](https://waymo.com/open/). Maps and surrounding 
