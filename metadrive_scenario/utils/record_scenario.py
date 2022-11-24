@@ -1,7 +1,9 @@
+import os
+
 from metadrive_scenario.utils.env_create_utils import create_env_and_config
 import tqdm
 import pygame
-from metadrive.policy.idm_policy import IDMPolicy
+from metadrive.policy.replay_policy import ReplayEgoCarPolicy
 
 import argparse
 
@@ -18,16 +20,16 @@ if __name__ == "__main__":
 
     args.topdown = True
     args.manual_control = False
-    args.dataset = "100_waymo_training"
+    args.dataset = "1000_waymo_training"
     args.scenario_start = 0
-    args.scenario_end = 100
+    args.scenario_end = 1000
 
     env_config = {"use_render": True if not args.topdown else False}
     if args.manual_control:
         env_config["manual_control"] = True
     else:
         env_config["manual_control"] = False
-        env_config["agent_policy"] = IDMPolicy
+        env_config["agent_policy"] = ReplayEgoCarPolicy
 
     if args.idm_traffic and is_waymo:
         env_config["replay"] = False
@@ -41,8 +43,14 @@ if __name__ == "__main__":
         waymo_env=True if is_waymo else False
     )
     env = env_class(config)
-    for seed in tqdm.tqdm(range(1000)):
+    for seed in [4, 5, 6, 8, 14, 21, 30, 31, 33, 34, 56, 66, 72, 81, 101, 141, 143, 159, 161, 171, 213, 228, 251, 276,
+                 315, 406, 446, 453, 465, 470, 492, 505, 535, 551, 562, 584, 612, 633, 634, 658, 716, 825, 870, 871,
+                 888, 954, 998, ]:
+        os.makedirs("{}".format(seed))
         env.reset(seed=seed)
-        o, r, d, i = env.step([0, 1])
-        ret = env.render(**dict(mode="top_down", film_size=(800, 800)) if args.topdown else {})
-        pygame.image.save(ret, "image/{}.png".format(seed))
+        for step in range(1000):
+            o, r, d, i = env.step([0, 1])
+            ret = env.render(**dict(mode="top_down", film_size=(800, 800)) if args.topdown else {})
+            pygame.image.save(ret, "{}/{}.png".format(seed, step))
+            if env._env.episode_step >= len(env._env.vehicle.navigation.reference_trajectory.segment_property):
+                break
