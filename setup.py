@@ -10,7 +10,7 @@ packages = find_namespace_packages(
     exclude=("docs", "docs.*", "documentation", "documentation.*", "metadrive.assets.*", "build.*"))
 print("We will install the following packages: ", packages)
 
-version = "0.0.0.1"
+version = "0.0.1.0"
 
 install_requires = [
     "metadrive-scenario",
