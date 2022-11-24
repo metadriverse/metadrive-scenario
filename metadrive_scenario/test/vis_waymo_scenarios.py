@@ -3,7 +3,7 @@ from metadrive.policy.idm_policy import IDMPolicy
 
 if __name__ == "__main__":
     env_class, config = create_env_and_config(
-        "env_num_1175_waymo",
+        "env_num_1165_waymo",
         extra_env_config={
             "use_render": False,
             "manual_control": True,

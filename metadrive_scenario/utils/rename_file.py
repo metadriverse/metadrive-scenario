@@ -16,6 +16,6 @@ if __name__ == "__main__":
     raise ValueError("Be cautious when running this sceipt!")
     import sys
 
-    raw_data_path = "../dataset/env_num_1175_waymo"
+    raw_data_path = "../dataset/env_num_1165_waymo"
     # raw_data_path = ".\\debug_data"
     unify_name(raw_data_path, offset=0)

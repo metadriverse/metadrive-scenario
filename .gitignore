@@ -28,4 +28,4 @@
 **/demo.gif
 *.pkl
 /metadrive_scenario/dataset/100_waymo_training/
-/metadrive_scenario/dataset/env_num_1175_waymo/
+/metadrive_scenario/dataset/env_num_1165_waymo/

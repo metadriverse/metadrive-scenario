@@ -41,7 +41,7 @@ python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_3000_star
 
 For driving in the **real Waymo scenarios**, run:
 ```bash
-python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_1175_waymo --scenario_start=0 --scenario_end=1000 
+python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_1165_waymo --scenario_start=0 --scenario_end=1000 
 ```
 The scenarios will be built by replaying collected surrounding vehicles' trajectories, while you can add argument 
 ```--idm_traffic``` to turn these vehicles into reactive ones.
