@@ -4,6 +4,7 @@ This repo contains scenarios from different sources for training and testing aut
 All scenarios can be runned in [MetaDrive Simulator](https://github.com/metadriverse/metadrive), where various sensor
 inpurt can be retrieved for making driving decisions. Until now, we provide three types of driving scenarios:
 
+![teaser](./docs/teaser.gif)
 - **Synthetic Scenarios**: Maps are generated via Procedural Generation (PG). Traffic vehicles are generated and 
 controlled according to manually desigened rules
 - **Real Scenarios**: These scenarios are built on [Waymo motion dataset](https://waymo.com/open/). Maps and surrounding 
@@ -41,7 +42,7 @@ python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_3000_star
 
 For driving in the **real Waymo scenarios**, run:
 ```bash
-python metadrive_scenario/examples/run_scenarios.py  --dataset 1000_waymo_training --scenario_start=0 --scenario_end=1000 
+python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_1165_waymo --scenario_start=0 --scenario_end=1000 
 ```
 The scenarios will be built by replaying collected surrounding vehicles' trajectories, while you can add argument 
 ```--idm_traffic``` to turn these vehicles into reactive ones.

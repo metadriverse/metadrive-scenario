@@ -40,7 +40,7 @@ def test_seed_synthetic():
 
 def test_seed_waymo():
     env_class, config = create_env_and_config(
-        "1000_waymo_training",
+        "env_num_1165_waymo",
         extra_env_config={
             "use_render": False,
             "manual_control": False,
@@ -66,7 +66,7 @@ def test_seed_waymo():
     env.close()
 
     env_class, config = create_env_and_config(
-        "1000_waymo_training",
+        "env_num_1165_waymo",
         extra_env_config={
             "use_render": False,
             "manual_control": False,
