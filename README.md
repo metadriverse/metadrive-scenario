@@ -16,7 +16,8 @@ be generated and resemble the real world traffic scenarios given a real-world ma
 **Prerequisite**: Installing MetaDrive via:
 
 ```bash
-# minimal version requirement is metadrive-0.2.6. For any installation issues, please refer to Metadrive: https://github.com/metadriverse/metadrive.
+# minimal version requirement is metadrive-0.2.6. 
+# For more installation instructions, please refer to Metadrive: https://github.com/metadriverse/metadrive.
 pip install "metadrive-simulator>=0.2.6"
 ```
 
@@ -49,4 +50,23 @@ The scenarios will be built by replaying collected surrounding vehicles' traject
 
 For both scenario types, you can add the optional argument ```--manual_control``` to control the vehicle via ```w```, ```a```, ```s```, ```d```.
 Also, you can add another argumane ```--topdown``` to use 2-D birdeye-view renderer, which is built with pygame.
+
+
+## 🏫 Documentations
+
+Find more details in: [MetaDrive](https://metadrive-simulator.readthedocs.io)
+
+
+## 📎 References
+
+If you use MetaDrive in your own work, please cite:
+
+```latex
+@article{li2022metadrive,
+  title={Metadrive: Composing diverse driving scenarios for generalizable reinforcement learning},
+  author={Li, Quanyi and Peng, Zhenghao and Feng, Lan and Zhang, Qihang and Xue, Zhenghai and Zhou, Bolei},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  year={2022}
+}
+```
 
