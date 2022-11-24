@@ -17,7 +17,7 @@ be generated and resemble the real world traffic scenarios given a real-world ma
 
 ```bash
 # minimal version requirement is metadrive-0.2.6. 
-# For more installation instructions, please refer to Metadrive: https://github.com/metadriverse/metadrive.
+# For more installation instructions, please refer to https://github.com/metadriverse/metadrive.
 pip install "metadrive-simulator>=0.2.6"
 ```
 
