@@ -1,12 +1,31 @@
-import os
-import seaborn as sns
-
-from metadrive_scenario.utils.env_create_utils import create_env_and_config
-import tqdm
-import pygame
-from metadrive.policy.replay_policy import ReplayEgoCarPolicy
-
 import argparse
+import os
+
+import cv2
+import pygame
+import seaborn as sns
+import tqdm
+from metadrive.policy.replay_policy import ReplayEgoCarPolicy
+from metadrive_scenario.utils.env_create_utils import create_env_and_config
+
+
+def image_to_video(seed):
+    image_folder = '{}'.format(seed)
+    video_name = '{}.mp4'.format(seed)
+
+    images = [img for img in os.listdir(image_folder) if img.endswith(".png")]
+    images.sort(key=lambda x: int(x[:-4]))
+    frame = cv2.imread(os.path.join(image_folder, images[0]))
+    height, width, layers = frame.shape
+
+    video = cv2.VideoWriter(video_name, 0, 30, (width, height))
+
+    for image in images:
+        video.write(cv2.imread(os.path.join(image_folder, image)))
+
+    cv2.destroyAllWindows()
+    video.release()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -45,9 +64,12 @@ if __name__ == "__main__":
     )
     color = sns.color_palette("colorblind")[2]
     env = env_class(config)
-    for seed in [4, 5, 6, 8, 14, 21, 30, 31, 33, 34, 56, 66, 72, 81, 101, 141, 143, 159, 161, 171, 213, 228, 251, 276,
-                 315, 406, 446, 453, 465, 470, 492, 505, 535, 551, 562, 584, 612, 633, 634, 658, 716, 825, 870, 871,
-                 888, 954, 998, ]:
+    after_selection = [6, 72, 81, 159, 171, 228, 276, 446, 492, 551, 562, 584, 658, 716, 825, 954]
+    before_select = [4, 5, 6, 8, 14, 21, 30, 31, 33, 34, 56, 66, 72, 81, 101, 141, 143, 159, 161, 171, 213, 228, 251,
+                     276,
+                     315, 406, 446, 453, 465, 470, 492, 505, 535, 551, 562, 584, 612, 633, 634, 658, 716, 825, 870, 871,
+                     888, 954, 998, ]
+    for seed in tqdm.tqdm(after_selection):
         os.makedirs("{}".format(seed))
         env.reset(seed=seed)
         env._env.vehicle._panda_color = color
@@ -59,3 +81,4 @@ if __name__ == "__main__":
             pygame.image.save(ret, "{}/{}.png".format(seed, step))
             if env._env.episode_step >= len(env._env.vehicle.navigation.reference_trajectory.segment_property):
                 break
+        image_to_video(seed)
