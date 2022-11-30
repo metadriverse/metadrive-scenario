@@ -65,10 +65,55 @@ if __name__ == "__main__":
     color = sns.color_palette("colorblind")[2]
     env = env_class(config)
     after_selection = [6, 72, 81, 159, 171, 228, 276, 446, 492, 551, 562, 584, 658, 716, 825, 954]
-    before_select = [4, 5, 6, 8, 14, 21, 30, 31, 33, 34, 56, 66, 72, 81, 101, 141, 143, 159, 161, 171, 213, 228, 251,
-                     276,
-                     315, 406, 446, 453, 465, 470, 492, 505, 535, 551, 562, 584, 612, 633, 634, 658, 716, 825, 870, 871,
-                     888, 954, 998, ]
+    before_select = [
+        4,
+        5,
+        6,
+        8,
+        14,
+        21,
+        30,
+        31,
+        33,
+        34,
+        56,
+        66,
+        72,
+        81,
+        101,
+        141,
+        143,
+        159,
+        161,
+        171,
+        213,
+        228,
+        251,
+        276,
+        315,
+        406,
+        446,
+        453,
+        465,
+        470,
+        492,
+        505,
+        535,
+        551,
+        562,
+        584,
+        612,
+        633,
+        634,
+        658,
+        716,
+        825,
+        870,
+        871,
+        888,
+        954,
+        998,
+    ]
     for seed in tqdm.tqdm(after_selection):
         os.makedirs("{}".format(seed))
         env.reset(seed=seed)
@@ -76,8 +121,11 @@ if __name__ == "__main__":
 
         for step in range(1000):
             o, r, d, i = env.step([0, 1])
-            ret = env.render(**dict(mode="top_down", film_size=(3000, 3000), screen_size=(1920, 1080),
-                                    track_target_vehicle=True) if args.topdown else {})
+            ret = env.render(
+                **dict(mode="top_down", film_size=(3000, 3000), screen_size=(1920,
+                                                                             1080), track_target_vehicle=True) if args.
+                topdown else {}
+            )
             pygame.image.save(ret, "{}/{}.png".format(seed, step))
             if env._env.episode_step >= len(env._env.vehicle.navigation.reference_trajectory.segment_property):
                 break
