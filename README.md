@@ -15,9 +15,9 @@ controlled according to rules
 **Prerequisite**: Install MetaDrive first via:
 
 ```bash
-# minimal version requirement is metadrive-0.2.6. 
-# For more installation instructions, please refer to https://github.com/metadriverse/metadrive.
-pip install "metadrive-simulator>=0.2.6"
+git clone https://github.com/metadriverse/metadrive.git
+cd metadrive
+pip install -e .
 ```
 
 **MetaDrive-Scenario Installation**:
