@@ -1,24 +1,43 @@
 # Metadrive-Scenario
 
-This repo contains scenarios from different sources for training and testing autonomous vehicles.
-All scenarios can be runned in [MetaDrive Simulator](https://github.com/metadriverse/metadrive), where various sensor
-inpurt can be retrieved for making driving decisions. Until now, we provide three types of driving scenarios:
+This repo contains diverse traffic scenarios for evaluating autonomous vehicles in simulation.
+All scenarios are reactive and can be ran in [MetaDrive Simulator](https://github.com/metadriverse/metadrive). 
 
 ![teaser](./docs/teaser.gif)
+
+Currently we provide three sources of traffic scenarios:
 - **Synthetic Scenarios**: Maps are generated via Procedural Generation (PG). Traffic vehicles are generated and 
-controlled according to manually desigened rules
-- **Real Scenarios**: These scenarios are built on [Waymo motion dataset](https://waymo.com/open/). Maps and surrounding 
-vehicles are collected and recorded in real world.
-- **Generated Scenarios**: Empowered by [TrafficGen](https://metadriverse.github.io/trafficgen/), new traffic flow can
-be generated and resemble the real world traffic scenarios given a real-world map.
+controlled according to rules
+    ```
+    Synthetic Dataset Statistics:
+      Number of scenarios: 3000
+      Number of traffic vehicles per scene: 8.9±3.1
+      Block Distrubution:
+        Curve: 0.156
+        Straight: 0.331
+        Roundabout: 0.077
+        T-intersection: 0.074
+        Intersection: 0.077
+        Ramp (merge): 0.081
+        Ramp (diverge): 0.076
+        Bottleneck (merge): 0.065
+        Bottleneck (diverge): 0.068
+    ```
+- **Real-world Scenarios**: These scenarios are built from [Waymo motion dataset](https://waymo.com/open/). Maps and surrounding vehicles are collected and recorded in real world.
+    ```
+    Real-world Dataset Statistics:
+      Number of scenarios: 1165
+      Number of traffic vehicles per scene: 26.1±21.5
+    ```
+- **Generated Scenarios**: Empowered by our generative model [TrafficGen](https://metadriverse.github.io/trafficgen/), new traffic flow can be generated and resembles the real-world data given a HD map.
 
 ## 🛠 Quick Start
-**Prerequisite**: Installing MetaDrive via:
+**Prerequisite**: Install MetaDrive first via:
 
 ```bash
-# minimal version requirement is metadrive-0.2.6. 
-# For more installation instructions, please refer to https://github.com/metadriverse/metadrive.
-pip install "metadrive-simulator>=0.2.6"
+git clone https://github.com/metadriverse/metadrive.git
+cd metadrive
+pip install -e .
 ```
 
 **MetaDrive-Scenario Installation**:
@@ -29,19 +48,19 @@ cd metadrive-scenario
 pip install -e .
 ```
 
-**Dataset Download**:
+**Download Dataset**:
 1. Download data from https://github.com/metadriverse/metadrive-scenario/releases.
 2. Place data under ```metadrive-scenario/metadrive_scenario/dataset```
 
 ## 🚕 Examples
 
-We provide an example:```metadrive_scenario/examples/run_scenarios.py```, where basic usage and APIs are shown.
+We provide an example script:```metadrive_scenario/examples/run_scenarios.py```, where basic usage and APIs are described.
 For driving in the **synthetic scenarios**, run:
 ```bash
 python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_3000_start_seed_0_synthetic --scenario_start=0 --scenario_end=3000 
 ```
 
-For driving in the **real Waymo scenarios**, run:
+For driving in the **real-world Waymo scenarios**, run:
 ```bash
 python metadrive_scenario/examples/run_scenarios.py  --dataset env_num_1165_waymo --scenario_start=0 --scenario_end=1000 
 ```
@@ -52,9 +71,9 @@ For both scenario types, you can add the optional argument ```--manual_control``
 Also, you can add another argumane ```--topdown``` to use 2-D birdeye-view renderer, which is built with pygame.
 
 
-## 🏫 Documentations
+## 🏫 Documentation
 
-Find more details in: [MetaDrive](https://metadrive-simulator.readthedocs.io)
+Refer to Documentation of [MetaDrive](https://metadrive-simulator.readthedocs.io) for detail.
 
 
 ## 📎 References
