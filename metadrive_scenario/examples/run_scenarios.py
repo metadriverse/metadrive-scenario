@@ -1,5 +1,5 @@
 from metadrive_scenario.utils.env_create_utils import create_env_and_config
-from metadrive.policy.idm_policy import IDMPolicy
+from metadrive.policy.idm_policy import IDMPolicy, WaymoIDMPolicy
 
 import argparse
 
@@ -19,7 +19,7 @@ if __name__ == "__main__":
         env_config["manual_control"] = True
     else:
         env_config["manual_control"] = False
-        env_config["agent_policy"] = IDMPolicy
+        env_config["agent_policy"] = IDMPolicy if not is_waymo else WaymoIDMPolicy
 
     if args.idm_traffic and is_waymo:
         env_config["replay"] = False
