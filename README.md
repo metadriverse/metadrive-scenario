@@ -8,7 +8,27 @@ All scenarios are reactive and can be ran in [MetaDrive Simulator](https://githu
 Currently we provide three sources of traffic scenarios:
 - **Synthetic Scenarios**: Maps are generated via Procedural Generation (PG). Traffic vehicles are generated and 
 controlled according to rules
+    ```
+    Synthetic Dataset Statistics:
+      Number of scenarios: 3000
+      Number of traffic vehicles per scene: 8.9±3.1
+      Block Distrubution:
+        Curve: 0.156
+        Straight: 0.331
+        Roundabout: 0.077
+        T-intersection: 0.074
+        Intersection: 0.077
+        Ramp (merge): 0.081
+        Ramp (diverge): 0.076
+        Bottleneck (merge): 0.065
+        Bottleneck (diverge): 0.068
+    ```
 - **Real-world Scenarios**: These scenarios are built from [Waymo motion dataset](https://waymo.com/open/). Maps and surrounding vehicles are collected and recorded in real world.
+    ```
+    Real-world Dataset Statistics:
+      Number of scenarios: 1165
+      Number of traffic vehicles per scene: 26.1±21.5
+    ```
 - **Generated Scenarios**: Empowered by our generative model [TrafficGen](https://metadriverse.github.io/trafficgen/), new traffic flow can be generated and resembles the real-world data given a HD map.
 
 ## 🛠 Quick Start
