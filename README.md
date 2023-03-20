@@ -71,6 +71,21 @@ For both scenario types, you can add the optional argument ```--manual_control``
 Also, you can add another argumane ```--topdown``` to use 2-D birdeye-view renderer, which is built with pygame.
 
 
+## Training
+
+Install Ray for RL training:
+
+```bash
+pip install ray==2.2.0
+pip install ray[rllib]==2.2.0
+pip install tensorflow_probability  # Not used
+
+# Install pytorch by yourself. We use:
+conda install pytorch torchvision torchaudio pytorch-cuda=11.7 -c pytorch -c nvidia
+
+
+```
+
 ## 🏫 Documentation
 
 Refer to Documentation of [MetaDrive](https://metadrive-simulator.readthedocs.io) for detail.
